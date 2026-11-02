@@ -1,0 +1,114 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Dashboard | Campus Companion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Campus Companion</h1>
+    <p>Your College Life, Organized in One Place</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="timetable.html">Timetable</a>
+    <a href="assignments.html">Assignments</a>
+    <a href="notes.html">Notes</a>
+    <a href="attendance.html">Attendance</a>
+    <a href="notices.html">Notices</a>
+    <a href="exam.html">Exam</a>
+</nav>
+
+<main class="welcome">
+
+    <h2>📝 Exam Dashboard</h2>
+    <p>Keep track of your upcoming examinations.</p>
+
+    <div class="grid-container">
+
+        <div class="card">
+            <h3>☕ Java</h3>
+            <p>Exam Date: 10 November 2026</p>
+            <h3 class="countdown" data-date="2026-11-10"></h3>
+        </div>
+
+        <div class="card">
+            <h3>🗄️ DBMS</h3>
+            <p>Exam Date: 12 November 2026</p>
+            <h3 class="countdown" data-date="2026-11-12"></h3>
+        </div>
+
+        <div class="card">
+            <h3>🌐 Computer Networks</h3>
+            <p>Exam Date: 15 November 2026</p>
+            <h3 class="countdown" data-date="2026-11-15"></h3>
+        </div>
+
+        <div class="card">
+            <h3>💻 Operating System</h3>
+            <p>Exam Date: 18 November 2026</p>
+            <h3 class="countdown" data-date="2026-11-18"></h3>
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h3>📌 Exam Preparation Tips</h3>
+        <p>✔ Prepare important questions.</p>
+        <p>✔ Revise your notes regularly.</p>
+        <p>✔ Practice previous question papers.</p>
+        <p>✔ Manage your study time properly.</p>
+    </div>
+
+    <div class="back-home">
+        <a href="index.html">← Back to Home</a>
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 Campus Companion | Student Dashboard</p>
+</footer>
+
+<script>
+
+function updateCountdown() {
+
+    const countdowns = document.querySelectorAll(".countdown");
+
+    countdowns.forEach(function(item) {
+
+        const examDate = new Date(item.dataset.date + "T00:00:00");
+        const today = new Date();
+
+        today.setHours(0, 0, 0, 0);
+
+        const difference = examDate - today;
+        const days = Math.ceil(difference / (1000 * 60 * 60 * 24));
+
+        if (days > 0) {
+            item.textContent = days + " Days Remaining";
+        } 
+        else if (days === 0) {
+            item.textContent = "Exam is Today!";
+        } 
+        else {
+            item.textContent = "Exam Completed";
+        }
+
+    });
+
+}
+
+updateCountdown();
+
+</script>
+
+</body>
+</html>
+```

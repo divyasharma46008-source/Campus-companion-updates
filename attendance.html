@@ -1,0 +1,179 @@
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance | Campus Companion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <h1>Campus Companion</h1>
+    <p>Your College Life, Organized in One Place</p>
+</header>
+
+<nav>
+    <a href="index.html">Home</a>
+    <a href="timetable.html">Timetable</a>
+    <a href="assignments.html">Assignments</a>
+    <a href="notes.html">Notes</a>
+    <a href="attendance.html">Attendance</a>
+    <a href="notices.html">Notices</a>
+    <a href="exam.html">Exam</a>
+</nav>
+
+<main class="welcome">
+
+    <h2>📊 Attendance Tracker</h2>
+    <p>Manage your subject-wise attendance easily.</p>
+
+    <div class="card">
+        <h3>➕ Add Attendance</h3>
+
+        <form id="attendanceForm">
+
+            <input type="text" id="subjectName"
+                placeholder="Enter Subject Name" required>
+
+            <input type="number" id="totalClasses"
+                placeholder="Total Classes" min="1" required>
+
+            <input type="number" id="attendedClasses"
+                placeholder="Attended Classes" min="0" required>
+
+            <button type="submit">Save Attendance</button>
+
+        </form>
+
+        <p id="message"></p>
+    </div>
+
+    <h3>📋 My Attendance Records</h3>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Total Classes</th>
+                    <th>Attended</th>
+                    <th>Attendance</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+
+            <tbody id="attendanceList"></tbody>
+        </table>
+    </div>
+
+    <div class="card">
+        <h3>📌 Attendance Reminder</h3>
+        <p>Try to maintain at least 75% attendance in every subject.</p>
+    </div>
+
+    <div class="back-home">
+        <a href="index.html">← Back to Home</a>
+    </div>
+
+</main>
+
+<footer>
+    <p>© 2026 Campus Companion | Student Dashboard</p>
+</footer>
+
+<script>
+
+const form = document.getElementById("attendanceForm");
+const attendanceList = document.getElementById("attendanceList");
+const message = document.getElementById("message");
+
+let records = JSON.parse(localStorage.getItem("attendanceData")) || [];
+
+function saveData() {
+    localStorage.setItem("attendanceData", JSON.stringify(records));
+}
+
+function displayAttendance() {
+
+    attendanceList.innerHTML = "";
+
+    records.forEach((record, index) => {
+
+        let percentage = (record.attended / record.total) * 100;
+
+        let row = document.createElement("tr");
+
+        let subjectCell = document.createElement("td");
+        subjectCell.textContent = record.subject;
+
+        let totalCell = document.createElement("td");
+        totalCell.textContent = record.total;
+
+        let attendedCell = document.createElement("td");
+        attendedCell.textContent = record.attended;
+
+        let percentageCell = document.createElement("td");
+        percentageCell.textContent = percentage.toFixed(2) + "%";
+
+        let actionCell = document.createElement("td");
+
+        let deleteButton = document.createElement("button");
+        deleteButton.textContent = "Delete";
+
+        deleteButton.addEventListener("click", function() {
+            records.splice(index, 1);
+            saveData();
+            displayAttendance();
+        });
+
+        actionCell.appendChild(deleteButton);
+
+        row.appendChild(subjectCell);
+        row.appendChild(totalCell);
+        row.appendChild(attendedCell);
+        row.appendChild(percentageCell);
+        row.appendChild(actionCell);
+
+        attendanceList.appendChild(row);
+
+    });
+
+}
+
+form.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let subject = document.getElementById("subjectName").value.trim();
+    let total = Number(document.getElementById("totalClasses").value);
+    let attended = Number(document.getElementById("attendedClasses").value);
+
+    if (subject === "" || total <= 0 || attended < 0 || attended > total) {
+        message.textContent = "Please enter valid attendance details.";
+        return;
+    }
+
+    records.push({
+        subject: subject,
+        total: total,
+        attended: attended
+    });
+
+    saveData();
+    displayAttendance();
+
+    message.textContent = "Attendance saved successfully!";
+
+    form.reset();
+
+});
+
+displayAttendance();
+
+</script>
+
+</body>
+</html>
+```
